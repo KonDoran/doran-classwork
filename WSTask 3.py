@@ -13,3 +13,7 @@ print("Your car consumes",gallonsmile,"gallons per mile.")
 #i) the gallon can be defined as a constant so that it can be easier to write than the number needed in a calculation
 #ii)the miles can be integers as the car's mileage only increases by integer values
 #iii) the number of litres needed to fill the tank can be a decimal as the tank is not always going to take an integer amount of litres to fill.
+
+
+## ACS - Youi need annotation in your code so we know what it is doing.
+##ACS - Round up the answer to the neaesrt litre or say tewo decimal points?

@@ -12,3 +12,6 @@ print("Now enter how many layers of paint you would like.")
 layers = int(input())
 Neededpaint = ((totaldim - unpaintdim)*layers)/11
 print("You need", Neededpaint,"litres of paint.")
+
+## ACS - Add annotations
+## - ACS Code works well.
