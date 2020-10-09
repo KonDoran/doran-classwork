@@ -14,7 +14,7 @@ screen_width = 1280
 screen_height = 720
 screen = pygame.display.set_mode(size)
 pygame.display.set_caption("Pong")
-pspeed = 1.5
+pspeed = 3
 
 
 class Paddle(pygame.sprite.Sprite):
@@ -324,13 +324,10 @@ def playeronegameloop():
     #Moving the paddles when the user uses the arrow keys (player A) or "W/S" keys (player B) 
         keys = pygame.key.get_pressed()
         if keys[pygame.K_w]:
-            paddleA.moveUp(7)
+            paddleA.moveUp(pspeed)
         if keys[pygame.K_s]:
-            paddleA.moveDown(7)
-        if keys[pygame.K_UP]:
-            paddleB.moveUp(7)
-        if keys[pygame.K_DOWN]:
-            paddleB.moveDown(7)    
+            paddleA.moveDown(pspeed)
+            
  
     # --- Game logic should go here
         bally=ball.rect.y
