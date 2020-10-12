@@ -12,16 +12,11 @@ pygame.init()
 # -- Blank Screen
 size = (640,480)
 screen = pygame.display.set_mode(size)
+
 # -- Title of new window/screen
-pygame.display.set_caption("Snow")
-# -- Exit game flag set to false
-done = False
-# Create a list of the snow blocks
-invader_group = pygame.sprite.Group()
-# Create a list of all sprites
-all_sprites_group = pygame.sprite.Group()
-# -- Manages how fast screen refreshes
-clock = pygame.time.Clock()
+pygame.display.set_caption("Invaders")
+
+score = 0  
 
 ## -- Define the class snow which is a sprite
 class Invader(pygame.sprite.Sprite):
@@ -34,27 +29,30 @@ class Invader(pygame.sprite.Sprite):
         # Create a sprite and fill it with colour
         self.image = pygame.Surface([width,height])
         self.image.fill(color)
+        
         # Set the position of the sprite
         self.rect = self.image.get_rect()
         self.rect.x = random.randrange(0, 600)
-        self.rect.y = random.randrange(-50, 0)
+        self.rect.y = random.randrange(-150, 0)
         self.speed = 1
     #End Procedure
     def update(self):
         self.rect.y = self.rect.y + self.speed
+        if self.rect.y > 480:
+            self.rect.x = random.randrange(0, 600)
+            self.rect.y = random.randrange(-50, 0)
 #End Class
 
 ## -- Define the class snow which is a sprite
 class Player(pygame.sprite.Sprite):
     # Define the constructor for snow
     def __init__(self, color, width, height):
-        # Set the speed of the sprite
-        self.speed = 0
         # Call the sprite constructor
         super().__init__()
         # Create a sprite and fill it with colour
         self.image = pygame.Surface([width,height])
         self.image.fill(color)
+        pygame.draw.rect(self.image, color, [300, 400, width, height])
         # Set the position of the sprite
         self.rect = self.image.get_rect()
         self.rect.x = 300
@@ -62,47 +60,101 @@ class Player(pygame.sprite.Sprite):
         self.speed = 1
     #End Procedure
     def update(self):
-        if 
-    def player_set_speed(val):
-        self.speed = val
-#End Class
+        if self.rect.x > 630:
+            self.rect.x = 630
+        elif self.rect.x < 0:
+            self.rect.x = 0
+        #endif
 
+    def moveRight(self, speed):
+        self.rect.x += speed
+    #End Procedure
         
-# Create the snowflakes
-number_of_invaders = 50 # we are creating 50 snowflakes
-for x in range (number_of_invaders):
-    my_invaders = Invader(BLUE, 10, 10, 1) # snowflakes are white with size 5 by 5 px
-    invader_group.add(my_invaders) # adds the new snowflake to the group of snowflakes
-    all_sprites_group.add(my_invaders) # adds it to the group of all Sprites
-#Next
-player = Player(YELLOW, 10, 10)
-all_sprites_group.add(player)
-### -- Game Loop
-while not done:
-    # -- User input and controls
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            done = True
-        elif event.type == pygame.KEYDOWN: # - a key is down
-            if event.key == pygame.K_LEFT: # - if the left key pressed
-                player.player_set_speed(-3) # speed set to -3
-            elif event.key == pygame.K_RIGHT: # - if the right key pressed
-                player.player_set_speed(3) # speed set to 3
-        elif event.type == pygame.KEYUP: # - a key released
-            if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
-                player.player_set_speed(0) # speed set to 0
-        #End If
-    #Next event
-    # -- Game logic goes after this comment
-    all_sprites_group.update()
-    player_hit_group = pygame.sprite.spritecollide(player, invader_group, True)
-    # -- Screen background is BLACK
-    screen.fill (BLACK)
-    # -- Draw here
-    all_sprites_group.draw(screen)
-    # -- flip display to reveal new position of objects
-    pygame.display.flip()
-     # - The clock ticks over
-    clock.tick(60)
-    #End While - End of game loop
+    def moveLeft(self, speed):
+        self.rect.x -= speed
+    #End Procedure
+        
+        
+#End Class
+# ------game over screen function
+def game_over(score):
+    done = False
+    clock = pygame.time.Clock()
+    while not done:
+        # -- User input and controls
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                done = True
+            elif event.type == pygame.KEYDOWN: # - a key is down
+                if event.key == pygame.K_ESCAPE: # - if the escape key pressed
+                    pygame.quit()
+            #End If
+        #Next event
+        screen.fill (BLACK)
+        font = pygame.font.Font(None, 74)
+        text = font.render(str(score), 1, WHITE)
+        screen.blit(text, (300,100))
+        pygame.display.flip()
+        clock.tick(60)
+
+def game():
+    done = False
+    # Create a list of the snow blocks
+    invader_group = pygame.sprite.Group()
+    player_group = pygame.sprite.Group()
+    # Create a list of all sprites
+    all_sprites_group = pygame.sprite.Group()
+    # -- Manages how fast screen refreshes
+    clock = pygame.time.Clock()
+    score = 1     
+    # Create the snowflakes
+    number_of_invaders = 50 # we are creating 50 snowflakes
+    for x in range (number_of_invaders):
+        my_invader = Invader(BLUE, 10, 10, 1) # snowflakes are white with size 5 by 5 px
+        invader_group.add(my_invader) # adds the new snowflake to the group of snowflakes
+        all_sprites_group.add(my_invader) # adds it to the group of all Sprites
+    #Next
+    player = Player(YELLOW, 10, 10)
+    player_group.add(player)
+    all_sprites_group.add(player)
+    ### -- Game Loop
+    while not done:
+        # -- User input and controls
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                done = True
+            elif event.type == pygame.KEYDOWN: # - a key is down
+                if event.key == pygame.K_ESCAPE: # - if the escape key pressed
+                    done = True
+            #End If
+        #Next event
+
+        #moving the player when the user presses a key
+        keys = pygame.key.get_pressed()
+        if keys[pygame.K_a]:
+            player.moveLeft(3)
+        if keys[pygame.K_d]:
+            player.moveRight(3)    
+    
+        # -- Game logic goes after this comment
+        all_sprites_group.update()
+        player_hit_group = pygame.sprite.groupcollide(player_group,invader_group, True, True)
+        if len(player_group) == 0:
+            game_over(score)
+        # -- Screen background is BLACK
+        screen.fill (BLACK)
+        # -- Draw here
+        all_sprites_group.draw(screen)
+        # -- Display Score
+        font = pygame.font.Font(None, 34)
+        text = font.render(str(score), 1, WHITE)
+        screen.blit(text, (600,10))
+        # -- flip display to reveal new position of objects
+        pygame.display.flip()
+        # - The clock ticks over
+        clock.tick(60)
+        #End While - End of game loop
+    
+    #End Function
+game()
 pygame.quit()
