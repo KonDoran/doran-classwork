@@ -1,7 +1,7 @@
 import pygame
 import random
 import math
-
+import sys
 # -- Colours
 BLACK = (0,0,0)
 WHITE = (255,255,255)
@@ -18,7 +18,7 @@ screen = pygame.display.set_mode(size)
 pygame.display.set_caption("Invaders")
 
 score = 0  
-
+lives = 3
 ## -- Define the class snow which is a sprite
 class Invader(pygame.sprite.Sprite):
     # Define the constructor for snow
@@ -41,7 +41,7 @@ class Invader(pygame.sprite.Sprite):
         self.rect.y = self.rect.y + self.speed
         if self.rect.y > 480:
             self.rect.x = random.randrange(0, 600)
-            self.rect.y = random.randrange(-50, 0)
+            self.rect.y = random.randrange(-150, 0)
 #End Class
 
 ## -- Define the class snow which is a sprite
@@ -101,9 +101,12 @@ def game_over(score):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 done = True
+                pygame.quit()
+                sys.exit()
             elif event.type == pygame.KEYDOWN: # - a key is down
                 if event.key == pygame.K_ESCAPE: # - if the escape key pressed
                     pygame.quit()
+                    sys.exit()
             #End If
         #Next event
         screen.fill (BLACK)
@@ -115,7 +118,7 @@ def game_over(score):
         pygame.display.flip()
         clock.tick(60)
 
-def game():
+def game(score,lives):
     done = False
     # Create a list of the snow blocks
     invader_group = pygame.sprite.Group()
@@ -123,11 +126,11 @@ def game():
     bullet_group = pygame.sprite.Group()
     # Create a list of all sprites
     all_sprites_group = pygame.sprite.Group()
-    score = 0
+    
     # -- Manages how fast screen refreshes
     clock = pygame.time.Clock()     
     # Create the snowflakes
-    number_of_invaders = 50 # we are creating 50 snowflakes
+    number_of_invaders = 100 # we are creating 50 snowflakes
     for x in range (number_of_invaders):
         my_invader = Invader(BLUE, 10, 10, 1) # snowflakes are white with size 5 by 5 px
         invader_group.add(my_invader) # adds the new snowflake to the group of snowflakes
@@ -149,24 +152,31 @@ def game():
             #End If
         #Next event
 
-        #moving the player when the user presses a key
-            keys = pygame.key.get_pressed()
-            if keys[pygame.K_SPACE]:
+        #moving the player when the user presses a keyw
+        
+            keyup = pygame.key.get_pressed()
+            if keyup[pygame.K_SPACE]:
                 bullet = Bullet(RED, 5)
                 bullet_group.add(bullet)
                 all_sprites_group.add(bullet)
                 bullet.rect.x = (player.rect.x) + 4
                 bullet.rect.y = 400
+        keys = pygame.key.get_pressed()
         if keys[pygame.K_a]:
             player.moveLeft(3)
         if keys[pygame.K_d]:
             player.moveRight(3)
             
-    
         # -- Game logic goes after this comment
         all_sprites_group.update()
         player_hit_group = pygame.sprite.groupcollide(player_group,invader_group, True, True)
         if len(player_group) == 0:
+            lives -= 1
+            if lives == 0:
+                game_over(score)
+            elif lives > 0:
+                game(score,lives)
+        if len(invader_group) == 0:
             game_over(score)
         if pygame.sprite.groupcollide(bullet_group, invader_group, True, True):
             score += 100
@@ -179,6 +189,9 @@ def game():
         font = pygame.font.Font(None, 34)
         text = font.render('Score:'+str(score), 1, WHITE)
         screen.blit(text, (500,10))
+        font = pygame.font.Font(None, 34)
+        text = font.render('Lives:'+str(lives), 1, WHITE)
+        screen.blit(text, (500,50))
         # -- flip display to reveal new position of objects
         pygame.display.flip()
         # - The clock ticks over
@@ -186,5 +199,5 @@ def game():
         #End While - End of game loop
     
     #End Function
-game()
+game(score, lives)
 pygame.quit()
