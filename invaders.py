@@ -109,6 +109,8 @@ def game_over(score):
                     sys.exit()
             #End If
         #Next event
+
+        # -- Draw game over screen
         screen.fill (BLACK)
         font = pygame.font.Font(None, 74)
         text1 = font.render('GAME OVER', 1, WHITE)
@@ -154,7 +156,7 @@ def game(score,lives):
 
         #moving the player when the user presses a keyw
         
-            keyup = pygame.key.get_pressed()
+            keyup = pygame.key.get_pressed()  # indented keyup, space can not be held to produce a bullet
             if keyup[pygame.K_SPACE]:
                 bullet = Bullet(RED, 5)
                 bullet_group.add(bullet)
@@ -169,23 +171,23 @@ def game(score,lives):
             
         # -- Game logic goes after this comment
         all_sprites_group.update()
-        player_hit_group = pygame.sprite.groupcollide(player_group,invader_group, True, True)
-        if len(player_group) == 0:
+        player_hit_group = pygame.sprite.groupcollide(player_group,invader_group, True, True) 
+        if len(player_group) == 0: #If player group has zero sprites in it, then lives go down by 1 and the game resets
             lives -= 1
             if lives == 0:
                 game_over(score)
-            elif lives > 0:
+            elif lives > 0:       
                 game(score,lives)
         if len(invader_group) == 0:
             game_over(score)
-        if pygame.sprite.groupcollide(bullet_group, invader_group, True, True):
+        if pygame.sprite.groupcollide(bullet_group, invader_group, True, True): #When a bullet hits an invader, gain 100 points
             score += 100
 
         # -- Screen background is BLACK
         screen.fill (BLACK)
         # -- Draw here
         all_sprites_group.draw(screen)
-        # -- Display Score
+        # -- Display Score and Lives
         font = pygame.font.Font(None, 34)
         text = font.render('Score:'+str(score), 1, WHITE)
         screen.blit(text, (500,10))
