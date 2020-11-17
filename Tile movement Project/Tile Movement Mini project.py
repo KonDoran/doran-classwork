@@ -63,13 +63,13 @@ class Player(pygame.sprite.Sprite):
 #end class
 
 class Wall(pygame.sprite.Sprite):
-    def __init__(self, width, height, x, y):
+    def __init__(self, color, width, height, x, y):
         #call sprite constructor
         super().__init__()
         #create a sprite
         self.image = pygame.Surface([40,40])
-        self.image.fill(RED)
-        pygame.draw.rect(self.image, [x, y, width, height])
+        self.image.fill(color)
+        pygame.draw.rect(self.image, color, [x ,y ,width, height])
         #set the position of the sprite
         self.rect = self.image.get_rect()
         self.rect.x = x
@@ -81,10 +81,15 @@ class Wall(pygame.sprite.Sprite):
 
 # Create a list of all sprites
 all_sprites_group = pygame.sprite.Group()
-wall_group = pygame.sprite.Group()
+outsidewall_group = pygame.sprite.Group()
 #Create an instance of player
-player = Player(RED, 25, 25)
+player = Player(BLACK, 25, 25)
 all_sprites_group.add(player)
+for i in range(0,25):
+    for j in range(0,24,24):
+        outsidewall = Wall(RED,40,40,i*40, j*40)
+        all_sprites_group.add(outsidewall)
+        outsidewall_group.add(outsidewall)
 #Loop until the user clicks the close button.
 done = False
  
@@ -104,7 +109,7 @@ while not done:
 
 
     # background image.
-    screen.fill(BLACK)
+    screen.fill(WHITE)
  
     # --- Drawing code should go here
     all_sprites_group.draw(screen)
