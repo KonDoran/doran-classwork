@@ -85,11 +85,13 @@ outsidewall_group = pygame.sprite.Group()
 #Create an instance of player
 player = Player(BLACK, 25, 25)
 all_sprites_group.add(player)
+
 for i in range(0,25):
-    for j in range(0,24,24):
-        outsidewall = Wall(RED,40,40,i*40, j*40)
-        all_sprites_group.add(outsidewall)
-        outsidewall_group.add(outsidewall)
+    for j in range(0,25):
+        if (i == 0 or i == 24) or (j==0 or j == 24):
+            outsidewall = Wall(RED,40,40,i*40, j*40)
+            all_sprites_group.add(outsidewall)
+            outsidewall_group.add(outsidewall)
 #Loop until the user clicks the close button.
 done = False
  
