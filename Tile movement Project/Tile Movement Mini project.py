@@ -18,7 +18,9 @@ pygame.display.set_caption("Tile Movement Game")
 
 class Player(pygame.sprite.Sprite):
     #define the constructor for the player
-    def __init__(self,color , width, height):
+    speed_x = 0
+    speed_y = 0
+    def __init__(self,color , width, height, x, y):
         #call sprite constructor
         super().__init__()
         #create a sprite
@@ -27,38 +29,51 @@ class Player(pygame.sprite.Sprite):
         pygame.draw.rect(self.image, color, [500, 500, width, height])
         #set the position of the sprite
         self.rect = self.image.get_rect()
-        self.rect.x = 500
-        self.rect.y = 500
+        self.rect.x = x
+        self.rect.y = y
         
     #end procedure
+    def changespeed(self, x, y):
+        self.speed_x += x
+        self.speed_y += y
     def update(self):
         keys = pygame.key.get_pressed()
         if keys[pygame.K_a]:
-            self.moveLeft(20)
+            self.changespeed(-20,0)
         if keys[pygame.K_d]:
-            self.moveRight(20)
+            self.changespeed(20,0)
         if keys[pygame.K_w]:
-            self.moveForward(20)
+            self.changespeed(0,-20)
         if keys[pygame.K_s]:
-            self.MoveBackward(20)
+            self.changespeed(0,20)
         #end if
+        self.move(self.speed_x,self.speed_y)
+        self.speed_x = 0
+        self.speed_y = 0
     #end procedure
-    def moveLeft(self, speed):
-        #move to the left
-        self.rect.x -= speed
-    #end procedure
-    def moveRight(self, speed):
-        #move to the right
-        self.rect.x += speed
-    #end procedure
-    def moveForward(self, speed):
+    def move(self, speedx, speedy):
+        #move along x
+        self.rect.x += self.speed_x
+
+        wallcollision = pygame.sprite.spritecollide(self,outsidewall_group, False)
+        for wall in wallcollision:
+            if self.speed_x > 0:
+                self.rect.right = wall.rect.left
+            else:
+                self.rect.left = wall.rect.right    
+    
+    
+    
         #move up the screen
-        self.rect.y -= speed
+        self.rect.y += self.speed_y
+        wallcollision = pygame.sprite.spritecollide(self, outsidewall_group, False)
+        for wall in wallcollision:
+            if self.speed_y > 0:
+                self.rect.bottom = wall.rect.top
+            else:
+                self.rect.top = wall.rect.bottom
     #end procedure
-    def MoveBackward(self, speed):
-        #move down the screen
-        self.rect.y += speed
-    #end procedure
+    
              
 #end class
 
@@ -82,9 +97,12 @@ class Wall(pygame.sprite.Sprite):
 # Create a list of all sprites
 all_sprites_group = pygame.sprite.Group()
 outsidewall_group = pygame.sprite.Group()
+player_group = pygame.sprite.Group()
 #Create an instance of player
-player = Player(BLACK, 25, 25)
+player = Player(BLACK, 25, 25,500,500)
 all_sprites_group.add(player)
+player_group.add(player)
+
 
 for i in range(0,25):
     for j in range(0,25):
@@ -106,6 +124,8 @@ while not done:
             done = True
  
     # --- Game logic should go here
+    wallcollision = pygame.sprite.spritecollide(player, outsidewall_group, False, False)
+    
     all_sprites_group.update()
     # --- Screen-clearing code goes here
 
