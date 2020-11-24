@@ -39,13 +39,13 @@ class Player(pygame.sprite.Sprite):
     def update(self):
         keys = pygame.key.get_pressed()
         if keys[pygame.K_a]:
-            self.changespeed(-10,0)
+            self.changespeed(-5,0)
         if keys[pygame.K_d]:
-            self.changespeed(10,0)
+            self.changespeed(5,0)
         if keys[pygame.K_w]:
-            self.changespeed(0,-10)
+            self.changespeed(0,-5)
         if keys[pygame.K_s]:
-            self.changespeed(0,10)
+            self.changespeed(0,5)
         #end if
         self.move(self.speed_x,self.speed_y)
         self.speed_x = 0
@@ -82,7 +82,7 @@ class Wall(pygame.sprite.Sprite):
         #call sprite constructor
         super().__init__()
         #create a sprite
-        self.image = pygame.Surface([40,40])
+        self.image = pygame.Surface([width,height])
         self.image.fill(color)
         pygame.draw.rect(self.image, color, [x ,y ,width, height])
         #set the position of the sprite
