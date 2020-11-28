@@ -167,10 +167,10 @@ class Bullet(pygame.sprite.Sprite):
 
     def update(self):
         self.rect.y += self.speedy
-        if self.rect.y < 0 or self.rect.y > 1000:
+        if pygame.sprite.pygame.sprite.groupcollide(bullet_group, wall_group, True, False) == True:
             self.remove()
         self.rect.x += self.speedx
-        if self.rect.x < 0 or self.rect.x > 1000:
+        if pygame.sprite.pygame.sprite.groupcollide(bullet_group, wall_group, True, False) == True:
             self.remove()
 
 class Wall(pygame.sprite.Sprite):
