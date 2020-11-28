@@ -75,17 +75,38 @@ class Player(pygame.sprite.Sprite):
         keys = pygame.key.get_pressed()
         if keys[pygame.K_a]:
             self.changespeed(-5,0)
+            if keys[pygame.K_SPACE]:
+                bullet = Bullet(RED, -5,0)
+                bullet_group.add(bullet)
+                all_sprites_group.add(bullet)
+                bullet.rect.x = (player.rect.x) + 4
         if keys[pygame.K_d]:
             self.changespeed(5,0)
+            if keys[pygame.K_SPACE]:
+                bullet = Bullet(RED, 5,0)
+                bullet_group.add(bullet)
+                all_sprites_group.add(bullet)
+                bullet.rect.x = (player.rect.x) + 4
         if keys[pygame.K_w]:
             self.changespeed(0,-5)
+            if keys[pygame.K_SPACE]:
+                bullet = Bullet(RED,0, -5)
+                bullet_group.add(bullet)
+                all_sprites_group.add(bullet)
+                bullet.rect.x = (player.rect.x) + 4
         if keys[pygame.K_s]:
             self.changespeed(0,5)
+            if keys[pygame.K_SPACE]:
+                    bullet = Bullet(RED, 0,5)
+                    bullet_group.add(bullet)
+                    all_sprites_group.add(bullet)
+                    bullet.rect.x = (player.rect.x) + 4
         #end if
         self.move(self.speed_x,self.speed_y)
         self.speed_x = 0
         self.speed_y = 0
-    #end procedure
+    #end procedure\
+    
     def move(self, speedx, speedy):
         #move along x
         self.rect.x += self.speed_x
@@ -114,6 +135,43 @@ class Player(pygame.sprite.Sprite):
     
              
 #end class
+
+#class Sword(pygame.sprite.Sprite):
+ #   def __init__(self, color, width, height):
+ #       super().__init__()
+ #       self.image = pygame.Surface([width,height])
+ #       self.image.fill(color)
+ #       self.rect = self.image.get_rect()
+ #       self.rect.x = player.rect.x
+ #       self.rect.y = player.rect.y
+ #   #end procedure
+
+#    def update(self):
+ #       self.rect.x = player.rect.x
+ #       self.rect.y = player.rect.y
+
+#Define class for bullet
+class Bullet(pygame.sprite.Sprite):
+    def __init__(self, color, speedx, speedy):
+        #Call the sprite constructor
+        super().__init__()
+        self.image = pygame.Surface([6,4])
+        self.image.fill(color)
+        self.rect = self.image.get_rect()
+        self.speedx = speedx
+        self.speedy = speedy
+        self.rect.y = player.rect.y
+        self.rect.x = player.rect.x 
+
+
+
+    def update(self):
+        self.rect.y += self.speedy
+        if self.rect.y < 0 or self.rect.y > 1000:
+            self.remove()
+        self.rect.x += self.speedx
+        if self.rect.x < 0 or self.rect.x > 1000:
+            self.remove()
 
 class Wall(pygame.sprite.Sprite):
     def __init__(self, color, width, height, x, y, posx, posy):
@@ -209,6 +267,7 @@ outsidewall_group = pygame.sprite.Group()
 wall_group = pygame.sprite.Group()
 innerwall_group = pygame.sprite.Group()
 player_group = pygame.sprite.Group()
+bullet_group = pygame.sprite.Group()
 enemy_group = pygame.sprite.Group()
 #Create an instance of player
 
@@ -240,8 +299,8 @@ for j in range(len(level1)):
             enemy = Enemy(YELLOW,40,40, i*40, j*40, 40)
             all_sprites_group.add(enemy)
 
-
-
+#sword = Sword(YELLOW,80,80)
+#all_sprites_group.add(sword)
 #for i in range(0,25):
  #   for j in range(0,25):
       #  if (i == 0 or i == 24) or (j==0 or j == 24):
