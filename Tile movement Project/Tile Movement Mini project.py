@@ -34,6 +34,8 @@ class Player(pygame.sprite.Sprite):
         self.gamekeys = gamekeys
         self.rect.x = x
         self.rect.y = y
+        self.directionx = 0
+        self.directiony = 5
         
     #end procedure
     def gethealth(self):
@@ -75,38 +77,33 @@ class Player(pygame.sprite.Sprite):
         keys = pygame.key.get_pressed()
         if keys[pygame.K_a]:
             self.changespeed(-5,0)
-            if keys[pygame.K_SPACE]:
-                bullet = Bullet(RED, -5,0)
-                bullet_group.add(bullet)
-                all_sprites_group.add(bullet)
-                bullet.rect.x = (player.rect.x) + 4
+            self.directionx = -5
+            self.directiony = 0
         if keys[pygame.K_d]:
             self.changespeed(5,0)
-            if keys[pygame.K_SPACE]:
-                bullet = Bullet(RED, 5,0)
-                bullet_group.add(bullet)
-                all_sprites_group.add(bullet)
-                bullet.rect.x = (player.rect.x) + 4
+            self.directionx = 5
+            self.directiony = 0      
         if keys[pygame.K_w]:
             self.changespeed(0,-5)
-            if keys[pygame.K_SPACE]:
-                bullet = Bullet(RED,0, -5)
-                bullet_group.add(bullet)
-                all_sprites_group.add(bullet)
-                bullet.rect.x = (player.rect.x) + 4
+            self.directionx = 0
+            self.directiony = -5
         if keys[pygame.K_s]:
             self.changespeed(0,5)
-            if keys[pygame.K_SPACE]:
-                    bullet = Bullet(RED, 0,5)
-                    bullet_group.add(bullet)
-                    all_sprites_group.add(bullet)
-                    bullet.rect.x = (player.rect.x) + 4
+            self.directionx = 0
+            self.directiony = 5
+        if keys[pygame.K_SPACE]:
+            if len(bullet_group) == 0:
+                print("held down")
+                bullet = Bullet(RED, self.directionx, self.directiony)
+                bullet_group.add(bullet)
+                all_sprites_group.add(bullet)
+                bullet.rect.x = (player.rect.x) + 15
         #end if
         self.move(self.speed_x,self.speed_y)
         self.speed_x = 0
         self.speed_y = 0
-    #end procedure\
-    
+    #end procedure
+
     def move(self, speedx, speedy):
         #move along x
         self.rect.x += self.speed_x
@@ -167,11 +164,14 @@ class Bullet(pygame.sprite.Sprite):
 
     def update(self):
         self.rect.y += self.speedy
-        if pygame.sprite.pygame.sprite.groupcollide(bullet_group, wall_group, True, False) == True:
+        if pygame.sprite.groupcollide(bullet_group, wall_group, True, False) == True:
             self.remove()
         self.rect.x += self.speedx
-        if pygame.sprite.pygame.sprite.groupcollide(bullet_group, wall_group, True, False) == True:
+        if pygame.sprite.groupcollide(bullet_group, wall_group, True, False) == True:
             self.remove()
+        if pygame.sprite.groupcollide(bullet_group,enemy_group,True, True) == True:
+            pass
+
 
 class Wall(pygame.sprite.Sprite):
     def __init__(self, color, width, height, x, y, posx, posy):
@@ -215,9 +215,11 @@ class Enemy(pygame.sprite.Sprite):
         self.rect.x = x
         self.rect.y = y
         self.health = health
+        
     #end procedure
     def update(self):
         pass
+
     #end procedure
 
     def gethealth(self):
@@ -298,6 +300,7 @@ for j in range(len(level1)):
         if char == 4:
             enemy = Enemy(YELLOW,40,40, i*40, j*40, 40)
             all_sprites_group.add(enemy)
+            enemy_group.add(enemy)
 
 #sword = Sword(YELLOW,80,80)
 #all_sprites_group.add(sword)
