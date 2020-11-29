@@ -6,6 +6,7 @@ WHITE = (255, 255, 255)
 GREEN = (0, 255, 0)
 RED = (255, 0, 0)
 YELLOW = (255, 255, 0)
+PINK = (255,20,147)
  
 pygame.init()
  
@@ -97,11 +98,18 @@ class Player(pygame.sprite.Sprite):
                 bullet = Bullet(RED, self.directionx, self.directiony)
                 bullet_group.add(bullet)
                 all_sprites_group.add(bullet)
-                bullet.rect.x = (player.rect.x) + 15
+                
         #end if
         self.move(self.speed_x,self.speed_y)
         self.speed_x = 0
         self.speed_y = 0
+        player_hit_group = pygame.sprite.pygame.sprite.groupcollide(player_group, enemy_group, False, False)
+        for self in player_hit_group:
+            self.health -= 1
+            if self.health < 1:
+
+                self.kill()
+
     #end procedure
 
     def move(self, speedx, speedy):
@@ -148,6 +156,22 @@ class Player(pygame.sprite.Sprite):
  #       self.rect.y = player.rect.y
 
 #Define class for bullet
+class Key(pygame.sprite.Sprite):
+    def __init__(self,color,x,y):
+        super().__init__()
+        self.image = pygame.Surface([10,10])
+        self.image.fill(color)
+        self.rect = self.image.get_rect()
+        self.rect.y = y
+        self.rect.x = x
+
+    def update(self):
+        key_hit_group = pygame.sprite.groupcollide(key_group, player_group, True, False)
+        for self in key_hit_group:
+            player.gamekeys += 1
+            if  player.gamekeys == 3:
+                pass
+
 class Bullet(pygame.sprite.Sprite):
     def __init__(self, color, speedx, speedy):
         #Call the sprite constructor
@@ -157,8 +181,8 @@ class Bullet(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.speedx = speedx
         self.speedy = speedy
-        self.rect.y = player.rect.y
-        self.rect.x = player.rect.x 
+        self.rect.y = player.rect.y + 18
+        self.rect.x = player.rect.x  + 18
 
 
 
@@ -169,8 +193,7 @@ class Bullet(pygame.sprite.Sprite):
         self.rect.x += self.speedx
         if pygame.sprite.groupcollide(bullet_group, wall_group, True, False) == True:
             self.remove()
-        if pygame.sprite.groupcollide(bullet_group,enemy_group,True, True) == True:
-            pass
+        
 
 
 class Wall(pygame.sprite.Sprite):
@@ -218,7 +241,16 @@ class Enemy(pygame.sprite.Sprite):
         
     #end procedure
     def update(self):
-        pass
+        enemy_hit_group = pygame.sprite.pygame.sprite.groupcollide(enemy_group, bullet_group, False, True)
+        for self in enemy_hit_group:
+            self.health -= 20
+            print(self.health)
+            if self.health < 1:
+                gamekey = Key(PINK, self.rect.x + 18, self.rect.y + 18)
+                all_sprites_group.add(gamekey)
+                key_group.add(gamekey)
+                self.kill()
+
 
     #end procedure
 
@@ -232,31 +264,31 @@ class Enemy(pygame.sprite.Sprite):
 
 
 level1 = [
-   [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
-[1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-[1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-[1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-[1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-[1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-[1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-[1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-[1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-[1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-[1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-[1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-[1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-[1,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,1],
-[1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-[1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-[1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-[1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-[1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-[1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-[1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-[1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,0,0,0,0,0,0,0,0,1],
-[1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-[1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
+    [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+    [1,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,1],
+    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,0,0,0,0,0,0,0,0,1],
+    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+    [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
    
     ]
 
@@ -271,13 +303,16 @@ innerwall_group = pygame.sprite.Group()
 player_group = pygame.sprite.Group()
 bullet_group = pygame.sprite.Group()
 enemy_group = pygame.sprite.Group()
+key_group = pygame.sprite.Group()
 #Create an instance of player
 
-for enemies in range(0,3):
-    xpos = random.randint(1,24)
-    ypos = random.randint(1,24)
+enemies = 0
+while enemies != 3:
+    xpos = random.randint(1,23)
+    ypos = random.randint(1,23)
     if level1[xpos][ypos] == 0:
         level1[xpos][ypos] = 4
+        enemies = enemies +1
 
 for j in range(len(level1)):
     for i in range(len(level1[j])):
