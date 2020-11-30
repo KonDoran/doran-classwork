@@ -368,9 +368,9 @@ class Game(object):
             ]
                     
         self.levels = [self.level1, self.level2]
-
+        self.levelsetup(Player, Enemy, Wall, InnerWall)
         #Create an instance of player
-
+    def levelsetup(self):
         enemies = 0
         while enemies != 3:
             xpos = random.randint(1,23)
@@ -452,6 +452,37 @@ class Game(object):
         pygame.display.flip()
     #end procedure
 
+"""def levelsetup():
+    enemies = 0
+    while enemies != 3:
+        xpos = random.randint(1,23)
+        ypos = random.randint(1,23)
+        if game.levels[game.level][xpos][ypos] == 0:
+            game.levels[game.level][xpos][ypos] = 4
+            enemies = enemies +1
+
+    for j in range(len(game.levels[game.level])):
+        for i in range(len(game.levels[game.level][j])):
+            print(i,j)
+            char = game.levels[game.level][j][i]
+            if char == 1:
+                game.outsidewall = Wall(RED,40,40,i*40, j*40, i, j)
+                game.all_sprites_group.add(game.outsidewall)
+                game.wall_group.add(game.outsidewall)
+                game.outsidewall_group.add(game.outsidewall)
+            if char == 2:
+                game.innerwall = InnerWall(RED,40,40,i*40, j*40, i, j)
+                game.all_sprites_group.add(game.innerwall)
+                game.wall_group.add(game.innerwall)
+                game.innerwall_group.add(game.innerwall)
+            if char == 3:
+                game.player = Player(WHITE, 40, 40,i*40,j*40,100,0,0,0)
+                game.all_sprites_group.add(game.player)
+                game.player_group.add(game.player)
+            if char == 4:
+                game.enemy = Enemy(YELLOW,40,40, i*40, j*40, 40)
+                game.all_sprites_group.add(game.enemy)
+                game.enemy_group.add(game.enemy)"""
 
 game = Game()
 # -------- Main Program Loop -----------
