@@ -33,7 +33,6 @@ class Game(object):
         self.score = 0
         self.game_over = False
         self.level = 0
-        self.tempscore = 0
         # Create a list of all sprites
         self.all_sprites_group = pygame.sprite.Group()
         self.outsidewall_group = pygame.sprite.Group()
@@ -101,8 +100,36 @@ class Game(object):
             [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
         
             ]
-                    
-        self.levels = [self.level1, self.level2]
+
+        self.level3 = [
+            [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+            [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+            [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+            [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+            [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+            [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+            [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+            [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+            [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+            [1,0,0,0,0,0,0,0,2,2,2,2,2,2,2,2,0,0,0,0,0,0,0,0,1],
+            [1,0,0,0,0,0,0,2,2,2,0,0,0,0,2,2,2,0,0,0,0,0,0,0,1],
+            [1,0,0,0,0,0,0,0,0,0,0,0,3,0,0,0,0,0,0,0,0,0,0,0,1],
+            [1,0,0,0,0,0,0,2,2,2,0,0,0,0,2,2,2,0,0,0,0,0,0,0,1],
+            [1,0,0,0,0,0,0,0,2,2,2,2,2,2,2,2,0,0,0,0,0,0,0,0,1],
+            [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+            [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+            [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+            [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+            [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+            [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+            [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+            [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+            [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+            [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+            [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
+        
+            ]            
+        self.levels = [self.level1, self.level2, self.level3]
         self.levelsetup()
         #Create an instance of player
 
@@ -118,7 +145,7 @@ class Game(object):
 
         for j in range(len(self.levels[self.level])):
             for i in range(len(self.levels[self.level][j])):
-                print(i,j)
+                #print(i,j)
                 char = self.levels[self.level][j][i]
                 if char == 1:
                     self.outsidewall = Wall(RED,40,40,i*40, j*40, i, j)
@@ -167,7 +194,6 @@ class Game(object):
             portal_hit = pygame.sprite.groupcollide(self.portal_group, self.player_group, True, False)
             for self.portal in portal_hit:
                 self.level += 1
-                self.score += self.tempscore
                 self.all_sprites_group.empty()
                 self.levelsetup()
                 print(self.level)
@@ -287,7 +313,6 @@ class Player(pygame.sprite.Sprite):
                 game.all_sprites_group.add(bullet)
                 
         #end if
-        game.tempscore = game.player.score 
         self.move(self.speed_x,self.speed_y)
         self.speed_x = 0
         self.speed_y = 0
@@ -362,7 +387,7 @@ class Key(pygame.sprite.Sprite):
         key_hit_group = pygame.sprite.groupcollide(game.key_group, game.player_group, True, False)
         for self in key_hit_group:
             game.player.gamekeys += 1
-            game.player.score += 50
+            game.score += 50
             if  game.player.gamekeys == 3:
                 game.portal = Portal(PURPLE, 23*40, 23*40)
                 game.all_sprites_group.add(game.portal)
@@ -452,7 +477,7 @@ class Enemy(pygame.sprite.Sprite):
             self.health -= 20
             print(self.health)
             if self.health < 1:
-                game.player.score += 100
+                game.score += 100
                 gamekey = Key(PINK, self.rect.x + 18, self.rect.y + 18)
                 game.all_sprites_group.add(gamekey)
                 game.key_group.add(gamekey)
