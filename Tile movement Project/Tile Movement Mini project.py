@@ -33,6 +33,7 @@ class Game(object):
         self.score = 0
         self.game_over = False
         self.level = 0
+        self.tempscore = 0
         # Create a list of all sprites
         self.all_sprites_group = pygame.sprite.Group()
         self.outsidewall_group = pygame.sprite.Group()
@@ -166,6 +167,7 @@ class Game(object):
             portal_hit = pygame.sprite.groupcollide(self.portal_group, self.player_group, True, False)
             for self.portal in portal_hit:
                 self.level += 1
+                self.score += self.tempscore
                 self.all_sprites_group.empty()
                 self.levelsetup()
                 print(self.level)
@@ -285,7 +287,7 @@ class Player(pygame.sprite.Sprite):
                 game.all_sprites_group.add(bullet)
                 
         #end if
-        game.score = self.score
+        game.tempscore = self.player.score 
         self.move(self.speed_x,self.speed_y)
         self.speed_x = 0
         self.speed_y = 0
