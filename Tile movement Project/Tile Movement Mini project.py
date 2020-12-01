@@ -287,7 +287,7 @@ class Player(pygame.sprite.Sprite):
                 game.all_sprites_group.add(bullet)
                 
         #end if
-        game.tempscore = self.player.score 
+        game.tempscore = game.player.score 
         self.move(self.speed_x,self.speed_y)
         self.speed_x = 0
         self.speed_y = 0
