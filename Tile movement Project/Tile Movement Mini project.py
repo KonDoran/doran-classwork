@@ -136,7 +136,7 @@ class Game(object):
             ]            
         self.levels = [self.level1, self.level2, self.level3]
         self.levelsetup()
-        #Create an instance of player
+        
 
         
     def levelsetup(self):
@@ -171,14 +171,6 @@ class Game(object):
                     self.all_sprites_group.add(self.enemy)
                     self.enemy_group.add(self.enemy)
 
-        #sword = Sword(YELLOW,80,80)
-        #all_sprites_group.add(sword)
-        #for i in range(0,25):
-        #   for j in range(0,25):
-            #  if (i == 0 or i == 24) or (j==0 or j == 24):
-            #      outsidewall = Wall(RED,40,40,i*40, j*40)
-            #      all_sprites_group.add(outsidewall)
-            #      outsidewall_group.add(outsidewall)
 
     def leveldelete(self):
         self.all_sprites_group.empty()
@@ -250,7 +242,7 @@ class Game(object):
         
         
         
-        # Create a Player Class
+# Create a Player Class
 class Player(pygame.sprite.Sprite):
     #define the constructor for the player
     speed_x = 0
@@ -342,12 +334,6 @@ class Player(pygame.sprite.Sprite):
             if self.health < 1:
 
                 self.kill()
-        
-
-            
-
-
-
     #end procedure
 
     def move(self, speedx, speedy):
@@ -360,9 +346,6 @@ class Player(pygame.sprite.Sprite):
                 self.rect.right = wall.rect.left
             else:
                 self.rect.left = wall.rect.right    
-    
-    
-    
         #move the player up and down the screen
         self.rect.y += self.speed_y
         #check for collision
@@ -374,26 +357,28 @@ class Player(pygame.sprite.Sprite):
                 self.rect.bottom = wall.rect.top
             else:
                 self.rect.top = wall.rect.bottom
-    #end procedure
-    
-            
+    #end procedure    
 #end class
 
-#class Sword(pygame.sprite.Sprite):
-#   def __init__(self, color, width, height):
-#       super().__init__()
-#       self.image = pygame.Surface([width,height])
-#       self.image.fill(color)
-#       self.rect = self.image.get_rect()
-#       self.rect.x = player.rect.x
-#       self.rect.y = player.rect.y
-#   #end procedure
+class Bullet(pygame.sprite.Sprite):
+    def __init__(self, color, speedx, speedy):
+        #Call the sprite constructor
+        super().__init__()
+        self.image = pygame.image.load(os.path.join(image_path, 'fireball.png'))
+        self.rect = self.image.get_rect()
+        self.speedx = speedx
+        self.speedy = speedy
+        self.rect.y = game.player.rect.y + 10
+        self.rect.x = game.player.rect.x  + 10
 
-#    def update(self):
-#       self.rect.x = player.rect.x
-#       self.rect.y = player.rect.y
-
-#Define class for bullet
+    def update(self):
+        self.rect.y += self.speedy
+        if pygame.sprite.groupcollide(game.bullet_group, game.wall_group, True, False) == True:
+            self.remove()
+        self.rect.x += self.speedx
+        if pygame.sprite.groupcollide(game.bullet_group, game.wall_group, True, False) == True:
+            self.remove()
+        
 class Key(pygame.sprite.Sprite):
     def __init__(self,color,x,y):
         super().__init__()
@@ -412,27 +397,10 @@ class Key(pygame.sprite.Sprite):
                 game.all_sprites_group.add(game.portal)
                 game.portal_group.add(game.portal)
 
-class Bullet(pygame.sprite.Sprite):
-    def __init__(self, color, speedx, speedy):
-        #Call the sprite constructor
-        super().__init__()
-        self.image = pygame.image.load(os.path.join(image_path, 'fireball.png'))
-        self.rect = self.image.get_rect()
-        self.speedx = speedx
-        self.speedy = speedy
-        self.rect.y = game.player.rect.y + 10
-        self.rect.x = game.player.rect.x  + 10
 
 
 
-    def update(self):
-        self.rect.y += self.speedy
-        if pygame.sprite.groupcollide(game.bullet_group, game.wall_group, True, False) == True:
-            self.remove()
-        self.rect.x += self.speedx
-        if pygame.sprite.groupcollide(game.bullet_group, game.wall_group, True, False) == True:
-            self.remove()
-        
+
 class Portal(pygame.sprite.Sprite):
     def __init__(self,color,x,y):
         super().__init__()
@@ -542,41 +510,6 @@ class Enemy(pygame.sprite.Sprite):
         self.health = newhealth
     #endfunction
 
-        
-
-        
-
-"""def levelsetup():
-    enemies = 0
-    while enemies != 3:
-        xpos = random.randint(1,23)
-        ypos = random.randint(1,23)
-        if game.levels[game.level][xpos][ypos] == 0:
-            game.levels[game.level][xpos][ypos] = 4
-            enemies = enemies +1
-
-    for j in range(len(game.levels[game.level])):
-        for i in range(len(game.levels[game.level][j])):
-            print(i,j)
-            char = game.levels[game.level][j][i]
-            if char == 1:
-                game.outsidewall = Wall(RED,40,40,i*40, j*40, i, j)
-                game.all_sprites_group.add(game.outsidewall)
-                game.wall_group.add(game.outsidewall)
-                game.outsidewall_group.add(game.outsidewall)
-            if char == 2:
-                game.innerwall = InnerWall(RED,40,40,i*40, j*40, i, j)
-                game.all_sprites_group.add(game.innerwall)
-                game.wall_group.add(game.innerwall)
-                game.innerwall_group.add(game.innerwall)
-            if char == 3:
-                game.player = Player(WHITE, 40, 40,i*40,j*40,100,0,0,0)
-                game.all_sprites_group.add(game.player)
-                game.player_group.add(game.player)
-            if char == 4:
-                game.enemy = Enemy(YELLOW,40,40, i*40, j*40, 40)
-                game.all_sprites_group.add(game.enemy)
-                game.enemy_group.add(game.enemy)"""
 
 game = Game()
 # -------- Main Program Loop -----------
