@@ -1,5 +1,10 @@
 import pygame
 import random
+import os
+
+
+current_path = os.path.dirname(__file__)#where this file is located
+image_path = os.path.join(current_path, 'images')
 # Define some colors
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
@@ -8,7 +13,7 @@ RED = (255, 0, 0)
 YELLOW = (255, 255, 0)
 PINK = (255,20,147)
 PURPLE = (75,0,130)
-
+BACKGROUND_IMAGE = pygame.image.load(os.path.join(image_path, 'background.png'))
 pygame.init()
 
 # Set the width and height of the screen [width, height]
@@ -74,58 +79,58 @@ class Game(object):
 
         self.level2 = [
             [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+            [1,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,2,0,0,0,0,0,1],
+            [1,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,2,0,0,0,0,0,1],
+            [1,0,0,0,2,2,2,2,2,2,0,0,0,0,0,0,0,0,2,0,0,2,2,2,1],
             [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-            [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-            [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-            [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-            [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-            [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-            [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-            [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-            [1,0,0,0,0,0,0,0,2,2,2,2,2,2,2,2,0,0,0,0,0,0,0,0,1],
-            [1,0,0,0,0,0,0,0,2,2,0,0,0,0,2,2,0,0,0,0,0,0,0,0,1],
+            [1,0,0,0,0,0,0,0,0,2,2,2,2,0,0,0,0,0,0,0,0,0,0,0,1],
+            [1,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,2,0,0,0,0,0,1],
+            [1,0,0,0,0,0,2,2,2,2,0,0,0,0,0,0,0,0,2,0,0,2,2,2,1],
+            [1,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,2,2,0,0,0,0,0,1],
+            [1,0,0,0,0,0,2,0,2,2,2,2,2,2,2,2,0,2,0,0,0,0,0,0,1],
+            [1,0,0,0,0,0,2,2,2,2,0,0,0,0,2,2,2,2,0,0,0,0,0,0,1],
             [1,0,0,0,0,0,0,0,0,0,0,0,3,0,0,0,0,0,0,0,0,0,0,0,1],
-            [1,0,0,0,0,0,0,0,2,2,0,0,0,0,2,2,0,0,0,0,0,0,0,0,1],
-            [1,0,0,0,0,0,0,0,2,2,2,2,2,2,2,2,0,0,0,0,0,0,0,0,1],
-            [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-            [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-            [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-            [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-            [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-            [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-            [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-            [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-            [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-            [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+            [1,0,0,0,0,2,2,2,2,2,0,0,0,0,2,2,2,2,2,2,2,2,0,0,1],
+            [1,0,0,0,0,2,0,0,2,2,2,2,2,2,2,2,0,0,0,0,0,2,0,0,1],
+            [1,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,1],
+            [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,1],
+            [1,2,0,2,2,2,0,0,0,0,0,0,0,0,0,0,0,2,2,2,2,2,0,0,1],
+            [1,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,1],
+            [1,0,0,0,0,2,0,0,0,0,0,0,0,0,0,2,2,2,0,0,0,2,2,2,1],
+            [1,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,1],
+            [1,0,0,0,0,2,0,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,0,0,1],
+            [1,0,0,0,0,2,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,1],
+            [1,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,1],
+            [1,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
             [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
         
             ]
 
         self.level3 = [
             [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+            [1,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,2,0,0,0,0,0,1],
+            [1,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,2,0,0,0,0,0,1],
+            [1,0,0,0,0,0,0,0,0,2,2,2,2,2,2,2,0,0,2,2,0,0,2,2,1],
             [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-            [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-            [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-            [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-            [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-            [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-            [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-            [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-            [1,0,0,0,0,0,0,0,2,2,2,2,2,2,2,2,0,0,0,0,0,0,0,0,1],
-            [1,0,0,0,0,0,0,2,2,2,0,0,0,0,2,2,2,0,0,0,0,0,0,0,1],
-            [1,0,0,0,0,0,0,0,0,0,0,0,3,0,0,0,0,0,0,0,0,0,0,0,1],
-            [1,0,0,0,0,0,0,2,2,2,0,0,0,0,2,2,2,0,0,0,0,0,0,0,1],
-            [1,0,0,0,0,0,0,0,2,2,2,2,2,2,2,2,0,0,0,0,0,0,0,0,1],
-            [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-            [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-            [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-            [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-            [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-            [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-            [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-            [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-            [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-            [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+            [1,2,0,0,0,2,2,2,2,2,2,2,2,0,0,0,0,0,0,0,0,0,0,0,1],
+            [1,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,2,0,0,0,0,0,1],
+            [1,0,0,0,0,0,2,2,2,2,0,0,0,0,0,0,0,0,2,0,0,2,2,2,1],
+            [1,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,2,2,0,0,0,0,0,1],
+            [1,0,0,0,0,0,2,0,2,2,2,2,2,2,2,2,0,2,0,0,0,0,0,0,1],
+            [1,2,0,0,2,2,2,2,2,2,0,0,0,0,2,2,2,2,0,0,0,0,0,0,1],
+            [1,0,0,0,0,0,0,0,0,0,0,0,3,0,0,0,0,0,0,0,0,2,0,0,1],
+            [1,2,2,0,0,2,2,2,2,2,0,0,0,0,2,2,2,2,2,2,2,2,0,0,1],
+            [1,0,0,0,0,2,0,0,2,2,2,0,0,2,2,2,0,0,0,0,0,2,0,0,1],
+            [1,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,1],
+            [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,2,0,0,1],
+            [1,0,0,0,0,2,2,2,2,2,0,0,0,0,0,0,0,2,2,2,2,2,0,0,1],
+            [1,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,1],
+            [1,0,0,0,0,2,0,0,0,0,0,0,0,0,2,2,2,2,0,0,0,2,2,2,1],
+            [1,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,1],
+            [1,0,0,0,0,2,0,2,2,2,2,2,2,2,2,2,2,2,2,0,0,2,0,0,1],
+            [1,0,0,0,0,2,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,1],
+            [1,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,1],
+            [1,0,0,0,0,2,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,1],
             [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
         
             ]            
@@ -136,7 +141,7 @@ class Game(object):
         
     def levelsetup(self):
         enemies = 0
-        while enemies != 3:
+        while enemies != ((2*(self.level+1)) + 1):
             xpos = random.randint(1,23)
             ypos = random.randint(1,23)
             if self.levels[self.level][xpos][ypos] == 0:
@@ -162,7 +167,7 @@ class Game(object):
                     self.all_sprites_group.add(self.player)
                     self.player_group.add(self.player)
                 if char == 4:
-                    self.enemy = Enemy(YELLOW,40,40, i*40, j*40, 40)
+                    self.enemy = Enemy(random.randint(0,10),40,40, i*40, j*40, 40)
                     self.all_sprites_group.add(self.enemy)
                     self.enemy_group.add(self.enemy)
 
@@ -174,6 +179,14 @@ class Game(object):
             #      outsidewall = Wall(RED,40,40,i*40, j*40)
             #      all_sprites_group.add(outsidewall)
             #      outsidewall_group.add(outsidewall)
+
+    def leveldelete(self):
+        self.all_sprites_group.empty()
+        self.wall_group.empty()
+        self.enemy_group.empty()
+        self.all_sprites_group.update()
+
+    #endprocess
     def eventprocess(self):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -191,20 +204,28 @@ class Game(object):
             self.all_sprites_group.update()
             if len(self.player_group) == 0:
                 self.game_over = True
-            portal_hit = pygame.sprite.groupcollide(self.portal_group, self.player_group, True, False)
+            portal_hit = pygame.sprite.groupcollide(self.portal_group, self.player_group, True, True)
             for self.portal in portal_hit:
-                self.level += 1
-                self.all_sprites_group.empty()
-                self.levelsetup()
-                print(self.level)
+                if self.level != (len(self.levels)-1):
+                    self.level += 1
+                    self.leveldelete()
+                    self.levelsetup()
+                else:
+                    self.game_over = True
 
 
     def display(self, screen):
         # background image.
         screen.fill(BLACK)
-
+        screen.blit(BACKGROUND_IMAGE,(0,0))
         if self.game_over:
-            pass
+            screen.fill(BLACK)
+            font1 = pygame.font.Font(None, 74)
+            font2 = pygame.font.Font(None, 48)
+            text = font1.render('GAME OVER', 1, WHITE)
+            score = font2.render('SCORE:'+str(self.getscore()), 1, WHITE)
+            screen.blit(text, (440,300))
+            screen.blit(score, (520,500))
         if not self.game_over:
             font = pygame.font.Font(None, 24)
             health = font.render('HEALTH:'+str(self.player.gethealth()), 1, WHITE)
@@ -238,8 +259,7 @@ class Player(pygame.sprite.Sprite):
         #call sprite constructor
         super().__init__()
         #create a sprite
-        self.image = pygame.Surface([width,height])
-        self.image.fill(color)
+        self.image = pygame.image.load(os.path.join(image_path, 'player.png'))
         #set the position of the sprite
         self.rect = self.image.get_rect()
         self.health = health
@@ -291,20 +311,20 @@ class Player(pygame.sprite.Sprite):
         keys = pygame.key.get_pressed()
         if keys[pygame.K_a]:
             self.changespeed(-5,0)
-            self.directionx = -5
+            self.directionx = -7
             self.directiony = 0
         if keys[pygame.K_d]:
             self.changespeed(5,0)
-            self.directionx = 5
+            self.directionx = 7
             self.directiony = 0      
         if keys[pygame.K_w]:
             self.changespeed(0,-5)
             self.directionx = 0
-            self.directiony = -5
+            self.directiony = -7
         if keys[pygame.K_s]:
             self.changespeed(0,5)
             self.directionx = 0
-            self.directiony = 5
+            self.directiony = 7
         if keys[pygame.K_SPACE]:
             if len(game.bullet_group) == 0:
                 print("held down")
@@ -377,8 +397,7 @@ class Player(pygame.sprite.Sprite):
 class Key(pygame.sprite.Sprite):
     def __init__(self,color,x,y):
         super().__init__()
-        self.image = pygame.Surface([10,10])
-        self.image.fill(color)
+        self.image = pygame.image.load(os.path.join(image_path, 'silverkey.png'))
         self.rect = self.image.get_rect()
         self.rect.y = y
         self.rect.x = x
@@ -388,7 +407,7 @@ class Key(pygame.sprite.Sprite):
         for self in key_hit_group:
             game.player.gamekeys += 1
             game.score += 50
-            if  game.player.gamekeys == 3:
+            if  game.player.gamekeys == ((2*(game.level+1)) + 1):
                 game.portal = Portal(PURPLE, 23*40, 23*40)
                 game.all_sprites_group.add(game.portal)
                 game.portal_group.add(game.portal)
@@ -397,13 +416,12 @@ class Bullet(pygame.sprite.Sprite):
     def __init__(self, color, speedx, speedy):
         #Call the sprite constructor
         super().__init__()
-        self.image = pygame.Surface([6,4])
-        self.image.fill(color)
+        self.image = pygame.image.load(os.path.join(image_path, 'fireball.png'))
         self.rect = self.image.get_rect()
         self.speedx = speedx
         self.speedy = speedy
-        self.rect.y = game.player.rect.y + 18
-        self.rect.x = game.player.rect.x  + 18
+        self.rect.y = game.player.rect.y + 10
+        self.rect.x = game.player.rect.x  + 10
 
 
 
@@ -418,8 +436,7 @@ class Bullet(pygame.sprite.Sprite):
 class Portal(pygame.sprite.Sprite):
     def __init__(self,color,x,y):
         super().__init__()
-        self.image = pygame.Surface([40,40])
-        self.image.fill(color)
+        self.image = pygame.image.load(os.path.join(image_path, 'portal2.png'))
         self.rect = self.image.get_rect()
         self.rect.y = y
         self.rect.x = x
@@ -432,8 +449,7 @@ class Wall(pygame.sprite.Sprite):
         #call sprite constructor
         super().__init__()
         #create a sprite
-        self.image = pygame.Surface([width,height])
-        self.image.fill(color)
+        self.image = pygame.image.load(os.path.join(image_path, 'wall.png'))
         #set the position of the sprite
         self.rect = self.image.get_rect()
         self.rect.x = x
@@ -458,33 +474,65 @@ class InnerWall(Wall):
         
 
 class Enemy(pygame.sprite.Sprite):
-    def __init__(self, color, width, height, x, y, health):
+    def __init__(self, direction, width, height, x, y, health):
         #call sprite constructor
         super().__init__()
         #create a sprite
-        self.image = pygame.Surface([width,height])
-        self.image.fill(color)
+        self.image = pygame.image.load(os.path.join(image_path, 'enemy.png'))
         #set the position of the sprite
         self.rect = self.image.get_rect()
         self.rect.x = x
         self.rect.y = y
         self.health = health
+        self.direction = direction
+        self.move = 5
         
     #end procedure
     def update(self):
+        
+        self.MOVE()
         enemy_hit_group = pygame.sprite.pygame.sprite.groupcollide(game.enemy_group, game.bullet_group, False, True)
         for self in enemy_hit_group:
             self.health -= 20
             print(self.health)
             if self.health < 1:
                 game.score += 100
-                gamekey = Key(PINK, self.rect.x + 18, self.rect.y + 18)
+                gamekey = Key(PINK, self.rect.x + 2, self.rect.y + 9)
                 game.all_sprites_group.add(gamekey)
                 game.key_group.add(gamekey)
                 self.kill()
-
-
+                
     #end procedure
+
+
+    def MOVE(self):
+        if self.direction % 2 == 0:
+            self.rect.x += self.move
+            wallcollision = pygame.sprite.groupcollide(game.enemy_group,game.wall_group, False,False)
+            for wall in wallcollision:
+                if self.move > 0:
+                    self.rect.right = wall.rect.left
+                    self.move = self.move * -1
+                else:
+                    self.rect.left = wall.rect.right    
+                    self.move = self.move * -1
+    
+    
+    
+        #move the player up and down the screen
+        else:
+            self.rect.y += self.move
+            #check for collision
+            wallcollision = pygame.sprite.groupcollide(game.enemy_group, game.wall_group, False, False) 
+            for wall in wallcollision:
+                #if there is a collision while moving up then set the speed to 0
+                if self.move > 0: 
+                    self.rect.bottom = wall.rect.top
+                    self.move = self.move * -1
+                else:
+                    self.rect.top = wall.rect.bottom
+                    self.move = self.move * -1
+
 
     def gethealth(self):
         return self.health
