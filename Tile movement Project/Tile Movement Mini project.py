@@ -144,7 +144,7 @@ class Game(object):
         while enemies != ((2*(self.level+1)) + 1):
             xpos = random.randint(1,23)
             ypos = random.randint(1,23)
-            if self.levels[self.level][xpos][ypos] == 0:
+            if self.levels[self.level][xpos][ypos] !=1 and self.levels[self.level][xpos][ypos] != 2:
                 self.levels[self.level][xpos][ypos] = 4
                 enemies = enemies +1
 
@@ -200,9 +200,11 @@ class Game(object):
             for self.portal in portal_hit:
                 if self.level != (len(self.levels)-1):
                     self.level += 1
+                    self.score += (self.player.health*100)+100
                     self.leveldelete()
                     self.levelsetup()
                 else:
+                    self.score += (self.player.health*100)+100
                     self.game_over = True
 
 
@@ -302,24 +304,24 @@ class Player(pygame.sprite.Sprite):
     def update(self):
         keys = pygame.key.get_pressed()
         if keys[pygame.K_a]:
-            self.changespeed(-5,0)
-            self.directionx = -7
+            self.changespeed(-4,0)
+            self.directionx = -6
             self.directiony = 0
         if keys[pygame.K_d]:
-            self.changespeed(5,0)
-            self.directionx = 7
+            self.changespeed(4,0)
+            self.directionx = 6
             self.directiony = 0      
         if keys[pygame.K_w]:
-            self.changespeed(0,-5)
+            self.changespeed(0,-4)
             self.directionx = 0
-            self.directiony = -7
+            self.directiony = -6
         if keys[pygame.K_s]:
-            self.changespeed(0,5)
+            self.changespeed(0,4)
             self.directionx = 0
-            self.directiony = 7
+            self.directiony = 6
         if keys[pygame.K_SPACE]:
             if len(game.bullet_group) == 0:
-                print("held down")
+                #print("held down")
                 bullet = Bullet(RED, self.directionx, self.directiony)
                 game.bullet_group.add(bullet)
                 game.all_sprites_group.add(bullet)
@@ -330,9 +332,9 @@ class Player(pygame.sprite.Sprite):
         self.speed_y = 0
         player_hit_group = pygame.sprite.groupcollide(game.player_group, game.enemy_group, False, False)
         for self in player_hit_group:
-            self.health -= 1
+            self.health -= 2
             if self.health < 1:
-
+                game.score += 100
                 self.kill()
     #end procedure
 
@@ -462,7 +464,7 @@ class Enemy(pygame.sprite.Sprite):
         enemy_hit_group = pygame.sprite.pygame.sprite.groupcollide(game.enemy_group, game.bullet_group, False, True)
         for self in enemy_hit_group:
             self.health -= 20
-            print(self.health)
+            #print(self.health)
             if self.health < 1:
                 game.score += 100
                 gamekey = Key(PINK, self.rect.x + 2, self.rect.y + 9)
